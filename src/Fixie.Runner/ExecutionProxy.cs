@@ -1,6 +1,7 @@
 ﻿namespace Fixie.Runner
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Reflection;
     using Cli;
 
@@ -13,14 +14,18 @@
         {
             var options = CommandLine.Parse<Options>(runnerArguments);
 
-            Assembly assembly =
-#if NET45
-                Assembly.Load(AssemblyName.GetAssemblyName(assemblyFullPath));
-#else
-                null;
-#endif
+            var assembly = Assembly.Load(GetAssemblyName(assemblyFullPath));
 
             return Runner(options).Run(assemblyFullPath, assembly, options, conventionArguments);
+        }
+
+        static AssemblyName GetAssemblyName(string assemblyFullPath)
+        {
+#if NET45
+            return AssemblyName.GetAssemblyName(assemblyFullPath);
+#else
+            return new AssemblyName { Name = Path.GetFileNameWithoutExtension(assemblyFullPath) };
+#endif
         }
 
         static RunnerBase Runner(Options options)
