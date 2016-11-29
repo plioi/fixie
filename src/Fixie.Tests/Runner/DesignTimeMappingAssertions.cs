@@ -11,7 +11,12 @@ namespace Fixie.Tests.Runner
 
             ShouldUseDefaultsForUnmappedProperties(test);
 
+#if NET45
             ShouldHaveSourceLocation(test);
+#else
+            //This assertion can be reversed once non-NET45 execution supports source location data.
+            ShouldNotHaveSourceLocation(test);
+#endif
         }
 
         public static void ShouldBeDiscoveryTimeTestMissingSourceLocation(this Test test, string expectedFullyQualifiedName)
