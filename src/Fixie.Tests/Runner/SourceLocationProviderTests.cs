@@ -78,6 +78,12 @@
 
         static void AssertLineNumber(string className, string methodName, int debugLine, int releaseLine)
         {
+#if !NET45
+            //This assertion can be reversed once non-NET45 execution supports source location data.
+            AssertNoLineNumber(className, methodName);
+            return;
+#endif
+
             var sourceLocationProvider = new SourceLocationProvider(TestAssemblyPath);
 
             SourceLocation location;

@@ -35,7 +35,12 @@ namespace Fixie.Tests.Runner
             var sink = new StubDesignTimeSink();
             Discover(new DesignTimeDiscoveryListener(sink, invalidAssemblyPath));
 
+#if NET45
             sink.LogEntries.Count.ShouldEqual(5);
+#else
+            //This assertion can be reversed once non-NET45 execution supports source location data.
+            sink.LogEntries.Count.ShouldEqual(0);
+#endif
 
             var tests = DiscoveredTests(sink);
 

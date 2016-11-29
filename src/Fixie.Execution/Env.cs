@@ -27,12 +27,20 @@
             => AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
     }
 #else
+    using System.Reflection;
     using System.Runtime.InteropServices;
+    using System.Runtime.Versioning;
 
     static class Env
     {
         public static string Version
-            => RuntimeInformation.FrameworkDescription;
+        {
+            get
+            {
+                var attr = typeof(object).GetTypeInfo().Assembly.GetCustomAttribute<TargetFrameworkAttribute>();
+                return attr == null ? "(unknown version)" : attr.FrameworkDisplayName;
+            }
+        }
 
         public static string OSVersion
             => RuntimeInformation.OSDescription;

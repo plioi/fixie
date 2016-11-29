@@ -27,12 +27,6 @@
 
             if (!File.Exists(AssemblyPath))
                 throw new CommandLineException("Specified test assembly does not exist: " + AssemblyPath);
-
-            if (!AssemblyDirectoryContainsFixie(AssemblyPath))
-                throw new CommandLineException($"Specified assembly {AssemblyPath} does not appear to be a test assembly. Ensure that it references Fixie.dll and try again.");
         }
-
-        static bool AssemblyDirectoryContainsFixie(string assemblyPath)
-            => File.Exists(Path.Combine(Path.GetDirectoryName(assemblyPath), "Fixie.dll"));
     }
 }

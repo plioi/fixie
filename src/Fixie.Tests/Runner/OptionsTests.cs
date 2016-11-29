@@ -34,18 +34,5 @@
             validate.ShouldThrow<CommandLineException>(
                 "Specified test assembly does not exist: foo.dll");
         }
-
-        public void DemandsAssemblyDirectoryContainsFixie()
-        {
-            var mscorlib = typeof(string).Assembly().Location;
-            var options = new Options(mscorlib);
-
-            Action validate = options.Validate;
-
-            validate.ShouldThrow<CommandLineException>(
-                $"Specified assembly {mscorlib} does not appear to " +
-                "be a test assembly. Ensure that it references " +
-                "Fixie.dll and try again.");
-        }
     }
 }

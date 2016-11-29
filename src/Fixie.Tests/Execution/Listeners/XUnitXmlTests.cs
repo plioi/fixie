@@ -58,7 +58,7 @@
             cleaned = Regex.Replace(cleaned, @"run-time=""\d\d:\d\d:\d\d""", @"run-time=""HH:MM:SS""");
 
             //Avoid brittle assertion introduced by .NET version.
-            cleaned = Regex.Replace(cleaned, @"environment=""\d+-bit \.NET [\.\d]+""", @"environment=""00-bit .NET 1.2.3.4""");
+            cleaned = Regex.Replace(cleaned, @"environment=""[^""]*""", @"environment=""00-bit .NET 1.2.3.4""");
 
             //Avoid brittle assertion introduced by fixie version.
             cleaned = Regex.Replace(cleaned, @"test-framework=""Fixie \d+(\.\d+)*(\-[^""]+)?""", @"test-framework=""Fixie 1.2.3.4""");
