@@ -16,7 +16,7 @@
         {
             XDocument actual = null;
 
-            var listener = new ReportListener<XUnitXml>(assembly => actual = new XUnitXml().Transform(assembly));
+            var listener = new ReportListener<XUnitXml>(report => actual = new XUnitXml().Transform(report));
 
             using (var console = new RedirectedConsole())
             {

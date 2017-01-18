@@ -13,11 +13,11 @@
         Handler<AssemblyCompleted>
         where TXmlFormat : XmlFormat, new()
     {
-        AssemblyReport assembly;
+        Report report;
         ClassReport currentClass;
-        readonly Action<AssemblyReport> save;
+        readonly Action<Report> save;
 
-        public ReportListener(Action<AssemblyReport> save)
+        public ReportListener(Action<Report> save)
         {
             this.save = save;
         }
@@ -29,13 +29,13 @@
 
         public void Handle(AssemblyStarted message)
         {
-            assembly = new AssemblyReport(message.Assembly);
+            report = new Report(message.Assembly);
         }
 
         public void Handle(ClassStarted message)
         {
             currentClass = new ClassReport(message.Class);
-            assembly.Add(currentClass);
+            report.Add(currentClass);
         }
 
         public void Handle(CaseCompleted message)
@@ -50,16 +50,16 @@
 
         public void Handle(AssemblyCompleted message)
         {
-            save(assembly);
-            assembly = null;
+            save(report);
+            report = null;
         }
 
-        static void Save(AssemblyReport assemblyReport)
+        static void Save(Report report)
         {
             var format = new TXmlFormat();
-            var xDocument = format.Transform(assemblyReport);
-            var folder = Path.GetDirectoryName(assemblyReport.Assembly.Location);
-            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(assemblyReport.Assembly.Location);
+            var xDocument = format.Transform(report);
+            var folder = Path.GetDirectoryName(report.Assembly.Location);
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(report.Assembly.Location);
             var formatName = format.Name;
             var filePath = Path.Combine(folder, $"{fileNameWithoutExtension}.{formatName}.xml");
 

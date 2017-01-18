@@ -5,6 +5,6 @@ namespace Fixie.Execution.Listeners
     public interface XmlFormat
     {
         string Name { get; }
-        XDocument Transform(AssemblyReport assemblyReport);
+        XDocument Transform(Report report);
     }
 }

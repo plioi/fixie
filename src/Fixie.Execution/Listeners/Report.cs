@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Reflection;
 
-    public class AssemblyReport
+    public class Report
     {
         readonly List<ClassReport> classes;
 
-        public AssemblyReport(Assembly assembly)
+        public Report(Assembly assembly)
         {
             Assembly = assembly;
             classes = new List<ClassReport>();
@@ -17,7 +17,7 @@
 
         public void Add(ClassReport classReport) => classes.Add(classReport);
 
-        public Assembly Assembly { get; set; }
+        public Assembly Assembly { get; }
 
         public TimeSpan Duration => new TimeSpan(classes.Sum(@class => @class.Duration.Ticks));
 
