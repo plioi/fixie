@@ -1,8 +1,8 @@
 ﻿namespace Fixie.Samples.NUnitStyle
 {
     using System;
-    using System.Text;
     using System.Collections.Generic;
+    using System.Text;
     using Assertions;
 
     [TestFixture]

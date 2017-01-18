@@ -6,12 +6,12 @@ namespace Fixie.Runner
 
     public class DesignTimeDiscoveryListener : Handler<MethodDiscovered>
     {
-        readonly IDesignTimeSink sink;
+        readonly IDesignTimeSink discoveryRecorder;
         readonly SourceLocationProvider sourceLocationProvider;
 
-        public DesignTimeDiscoveryListener(IDesignTimeSink sink, string assemblyPath)
+        public DesignTimeDiscoveryListener(IDesignTimeSink discoveryRecorder, string assemblyPath)
         {
-            this.sink = sink;
+            this.discoveryRecorder = discoveryRecorder;
             sourceLocationProvider = new SourceLocationProvider(assemblyPath);
         }
 
@@ -22,7 +22,7 @@ namespace Fixie.Runner
             var test = new Test
             {
                 FullyQualifiedName = methodGroup.FullName,
-                DisplayName = methodGroup.FullName,
+                DisplayName = methodGroup.FullName
             };
 
             try
@@ -36,10 +36,10 @@ namespace Fixie.Runner
             }
             catch (Exception exception)
             {
-                sink.Log(exception.ToString());
+                discoveryRecorder.Log(exception.ToString());
             }
 
-            sink.SendTestFound(test);
+            discoveryRecorder.SendTestFound(test);
         }
     }
 }

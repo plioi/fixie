@@ -56,7 +56,7 @@ namespace Fixie.TestDriven
 
             var testResult = new TestResult { Name = message.Name };
 
-            customize?.Invoke(testResult);
+            customize.Invoke(testResult);
 
             tdnet.TestFinished(testResult);
         }

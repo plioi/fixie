@@ -4,11 +4,11 @@
 
     public class ClassCompleted : Message
     {
-        public ClassCompleted(Type testClass)
+        public ClassCompleted(Type @class)
         {
-            TestClass = testClass;
+            Class = @class;
         }
 
-        public Type TestClass { get; }
+        public Type Class { get; }
     }
 }

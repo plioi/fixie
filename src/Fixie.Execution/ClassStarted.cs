@@ -4,11 +4,11 @@
 
     public class ClassStarted : Message
     {
-        public ClassStarted(Type testClass)
+        public ClassStarted(Type @class)
         {
-            TestClass = testClass;
+            Class = @class;
         }
 
-        public Type TestClass { get; }
+        public Type Class { get; }
     }
 }

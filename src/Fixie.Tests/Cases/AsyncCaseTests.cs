@@ -1,6 +1,5 @@
 ﻿namespace Fixie.Tests.Cases
 {
-    using System;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Assertions;
@@ -22,8 +21,8 @@
 
             Listener.Entries.ShouldEqual(
                 For<AwaitThenFailTestClass>(".Test failed: Assertion Failure" + NewLine +
-                "Expected: 0" + NewLine +
-                "Actual:   3"));
+                    "Expected: 0" + NewLine +
+                    "Actual:   3"));
         }
 
         public void ShouldFailWithOriginalExceptionWhenAsyncCaseMethodThrowsWithinTheAwaitedTask()
@@ -48,8 +47,8 @@
 
             Listener.Entries.ShouldEqual(
                 For<UnsupportedAsyncVoidTestTestClass>(".Test failed: " +
-                "Async void methods are not supported. Declare async methods with a return type of " +
-                "Task to ensure the task actually runs to completion."));
+                    "Async void methods are not supported. Declare async methods with a return type of " +
+                    "Task to ensure the task actually runs to completion."));
         }
 
         abstract class SampleTestClassBase

@@ -72,7 +72,7 @@
         {
             return new XElement("test-suite",
                 new XAttribute("type", "TestFixture"),
-                new XAttribute("name", classReport.TestClass.FullName),
+                new XAttribute("name", classReport.Class.FullName),
                 new XAttribute("success", classReport.Failed == 0),
                 new XAttribute("time", Seconds(classReport.Duration)),
                 new XAttribute("executed", true),

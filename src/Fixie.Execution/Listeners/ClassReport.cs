@@ -2,16 +2,15 @@ namespace Fixie.Execution.Listeners
 {
     using System;
     using System.Collections.Generic;
-    using Execution;
 
     public class ClassReport
     {
         readonly List<CaseCompleted> cases;
         readonly ExecutionSummary summary;
 
-        public ClassReport(Type testClass)
+        public ClassReport(Type @class)
         {
-            TestClass = testClass;
+            Class = @class;
             cases = new List<CaseCompleted>();
             summary = new ExecutionSummary();
         }
@@ -22,7 +21,7 @@ namespace Fixie.Execution.Listeners
             summary.Add(message);
         }
 
-        public Type TestClass { get; }
+        public Type Class { get; }
 
         public IReadOnlyList<CaseCompleted> Cases => cases;
 

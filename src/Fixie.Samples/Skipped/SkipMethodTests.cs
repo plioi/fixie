@@ -6,7 +6,7 @@
 
     public class SkipMethodTests : IDisposable
     {
-        Calculator calculator;
+        readonly Calculator calculator;
         readonly StringBuilder log;
 
         public SkipMethodTests()
