@@ -60,8 +60,7 @@
             var xDocument = format.Transform(report);
             var folder = Path.GetDirectoryName(report.Assembly.Location);
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(report.Assembly.Location);
-            var formatName = format.Name;
-            var filePath = Path.Combine(folder, $"{fileNameWithoutExtension}.{formatName}.xml");
+            var filePath = Path.Combine(folder, $"{fileNameWithoutExtension}.xml");
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             using (var writer = new StreamWriter(stream))

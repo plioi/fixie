@@ -9,8 +9,6 @@
 
     public class NUnitXml : XmlFormat
     {
-        public string Name => "NUnit";
-
         public XDocument Transform(Report report)
         {
             var now = DateTime.UtcNow;

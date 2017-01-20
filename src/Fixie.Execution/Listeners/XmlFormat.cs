@@ -1,10 +1,9 @@
-namespace Fixie.Execution.Listeners
+﻿namespace Fixie.Execution.Listeners
 {
     using System.Xml.Linq;
 
     public interface XmlFormat
     {
-        string Name { get; }
         XDocument Transform(Report report);
     }
 }
