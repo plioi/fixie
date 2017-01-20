@@ -1,6 +1,7 @@
 ﻿namespace Fixie.Tests.Cli
 {
     using System;
+    using Assertions;
     using Fixie.Cli;
 
     public class CommandLineTests
@@ -76,7 +77,13 @@
             Parse<ModelWithConstructor<bool>>("true", "false")
                 .ShouldSucceed(new ModelWithConstructor<bool>(true, false, false));
 
+            Parse<ModelWithConstructor<bool>>("TRUE", "FALSE")
+                .ShouldSucceed(new ModelWithConstructor<bool>(true, false, false));
+
             Parse<ModelWithConstructor<bool>>("on", "off")
+                .ShouldSucceed(new ModelWithConstructor<bool>(true, false, false));
+
+            Parse<ModelWithConstructor<bool>>("ON", "OFF")
                 .ShouldSucceed(new ModelWithConstructor<bool>(true, false, false));
 
             Parse<ModelWithConstructor<bool>>("value1", "value2")
@@ -88,7 +95,13 @@
             Parse<ModelWithConstructor<bool?>>("true", "false")
                 .ShouldSucceed(new ModelWithConstructor<bool?>(true, false, null));
 
+            Parse<ModelWithConstructor<bool?>>("TRUE", "FALSE")
+                .ShouldSucceed(new ModelWithConstructor<bool?>(true, false, null));
+
             Parse<ModelWithConstructor<bool?>>("on", "off")
+                .ShouldSucceed(new ModelWithConstructor<bool?>(true, false, null));
+
+            Parse<ModelWithConstructor<bool?>>("ON", "OFF")
                 .ShouldSucceed(new ModelWithConstructor<bool?>(true, false, null));
 
             Parse<ModelWithConstructor<bool?>>("value1", "value2")
@@ -112,6 +125,9 @@
 
         public void ShouldCollectExcessArgumentsForLaterInspection()
         {
+            Parse<Empty>("first", "second", "third", "fourth", "fifth")
+                .ShouldSucceed(new Empty(), "first", "second", "third", "fourth", "fifth");
+
             Parse<ModelWithConstructor<string>>("first", "second", "third", "fourth", "fifth")
                 .ShouldSucceed(
                     new ModelWithConstructor<string>("first", "second", "third"),
@@ -135,13 +151,17 @@
             Parse<ModelWithProperties<string>>("--first", "value1", "--second", "value2", "--third", "value3")
                 .ShouldSucceed(new ModelWithProperties<string>
                 {
-                    First = "value1", Second = "value2", Third = "value3"
+                    First = "value1",
+                    Second = "value2",
+                    Third = "value3"
                 });
 
             Parse<ModelWithProperties<int>>("--first", "1", "--second", "2", "--third", "3")
                 .ShouldSucceed(new ModelWithProperties<int>
                 {
-                    First = 1, Second = 2, Third = 3
+                    First = 1,
+                    Second = 2,
+                    Third = 3
                 });
 
             Parse<ModelWithProperties<int>>("--first", "1", "--second", "2", "--third", "abc")
@@ -162,13 +182,17 @@
             Parse<ModelWithProperties<string>>("--first", "value1", "--second", "value2")
                 .ShouldSucceed(new ModelWithProperties<string>
                 {
-                    First = "value1", Second = "value2", Third = null
+                    First = "value1",
+                    Second = "value2",
+                    Third = null
                 });
 
             Parse<ModelWithProperties<int>>("--first", "1", "--second", "2")
                 .ShouldSucceed(new ModelWithProperties<int>
                 {
-                    First = 1, Second = 2, Third = 0
+                    First = 1,
+                    Second = 2,
+                    Third = 0
                 });
         }
 
@@ -177,13 +201,17 @@
             Parse<ModelWithProperties<int?>>("--first", "1", "--third", "2")
                 .ShouldSucceed(new ModelWithProperties<int?>
                 {
-                    First = 1, Second = null, Third = 2
+                    First = 1,
+                    Second = null,
+                    Third = 2
                 });
 
             Parse<ModelWithProperties<char?>>("--first", "a", "--third", "c")
                 .ShouldSucceed(new ModelWithProperties<char?>
                 {
-                    First = 'a', Second = null, Third = 'c'
+                    First = 'a',
+                    Second = null,
+                    Third = 'c'
                 });
         }
 
@@ -192,7 +220,9 @@
             Parse<ModelWithProperties<bool>>("--first", "--third")
                 .ShouldSucceed(new ModelWithProperties<bool>
                 {
-                    First = true, Second = false, Third = true
+                    First = true,
+                    Second = false,
+                    Third = true
                 });
         }
 
@@ -201,13 +231,17 @@
             Parse<ModelWithProperties<bool?>>("--first", "true", "--third", "false")
                 .ShouldSucceed(new ModelWithProperties<bool?>
                 {
-                    First = true, Second = null, Third = false
+                    First = true,
+                    Second = null,
+                    Third = false
                 });
 
             Parse<ModelWithProperties<bool?>>("--first", "on", "--third", "off")
                 .ShouldSucceed(new ModelWithProperties<bool?>
                 {
-                    First = true, Second = null, Third = false
+                    First = true,
+                    Second = null,
+                    Third = false
                 });
 
             Parse<ModelWithProperties<bool?>>("--first", "value1", "--third", "value2")
@@ -219,7 +253,9 @@
             Parse<ModelWithProperties<Level>>("--first", "Warning", "--third", "ErRoR")
                 .ShouldSucceed(new ModelWithProperties<Level>
                 {
-                    First = Level.Warning, Second = Level.Information, Third = Level.Error
+                    First = Level.Warning,
+                    Second = Level.Information,
+                    Third = Level.Error
                 });
 
             Parse<ModelWithProperties<Level>>("--first", "Warning", "--third", "TYPO")
@@ -228,7 +264,9 @@
             Parse<ModelWithProperties<Level?>>("--first", "Warning", "--third", "eRrOr")
                 .ShouldSucceed(new ModelWithProperties<Level?>
                 {
-                    First = Level.Warning, Second = null, Third = Level.Error
+                    First = Level.Warning,
+                    Second = null,
+                    Third = Level.Error
                 });
 
             Parse<ModelWithProperties<Level?>>("--first", "Warning", "--third", "TYPO")
@@ -246,7 +284,9 @@
                 "--array", "--value6")
                 .ShouldSucceed(new ModelWithProperties<string>
                 {
-                    First = "value1", Second = "value2", Third = "value3"
+                    First = "value1",
+                    Second = "value2",
+                    Third = "value3"
                 },
                     "--fourth", "value4", "--array", "value5", "--array", "--value6");
 
@@ -259,7 +299,9 @@
                 "--array", "6")
                 .ShouldSucceed(new ModelWithProperties<int>
                 {
-                    First = 1, Second = 2, Third = 3
+                    First = 1,
+                    Second = 2,
+                    Third = 3
                 },
                     "--fourth", "4", "--array", "5", "--array", "6");
         }
@@ -390,7 +432,7 @@
             {
                 string[] unusedArguments;
                 var model = CommandLine.Parse<T>(arguments, out unusedArguments);
-                model.ShouldMatch(expectedModel);
+                ShouldMatch(model, expectedModel);
                 unusedArguments.ShouldEqual(expectedUnusedArguments);
             }
 
@@ -399,6 +441,20 @@
                 Action shouldThrow = () => CommandLine.Parse<T>(arguments);
 
                 shouldThrow.ShouldThrow<CommandLineException>(expectedExceptionMessage);
+            }
+
+            static void ShouldMatch(T actual, T expected)
+            {
+                expected.ShouldNotBeNull();
+                actual.ShouldNotBeNull();
+
+                foreach (var property in typeof(T).GetProperties())
+                {
+                    var actualValue = property.GetValue(actual);
+                    var expectedValue = property.GetValue(expected);
+
+                    actualValue.ShouldEqual(expectedValue);
+                }
             }
         }
     }

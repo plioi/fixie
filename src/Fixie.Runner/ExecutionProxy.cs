@@ -10,7 +10,7 @@
         : LongLivedMarshalByRefObject
 #endif
     {
-        public int Run(string assemblyFullPath, IReadOnlyList<string> runnerArguments, IReadOnlyList<string> conventionArguments)
+        public int Run(string assemblyFullPath, string[] runnerArguments, string[] conventionArguments)
         {
             var options = CommandLine.Parse<Options>(runnerArguments);
 

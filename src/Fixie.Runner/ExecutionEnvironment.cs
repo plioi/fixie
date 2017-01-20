@@ -32,7 +32,7 @@
             executionProxy = Create<ExecutionProxy>();
         }
 
-        public int Run(IReadOnlyList<string> runnerArguments, IReadOnlyList<string> conventionArguments)
+        public int Run(string[] runnerArguments, string[] conventionArguments)
         {
             return executionProxy.Run(assemblyFullPath, runnerArguments, conventionArguments);
         }
@@ -96,7 +96,7 @@
             executionProxy = new ExecutionProxy();
         }
 
-        public int Run(IReadOnlyList<string> runnerArguments, IReadOnlyList<string> conventionArguments)
+        public int Run(string[] runnerArguments, string[] conventionArguments)
         {
             return executionProxy.Run(assemblyFullPath, runnerArguments, conventionArguments);
         }

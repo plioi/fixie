@@ -1,4 +1,4 @@
-namespace Fixie.Cli
+﻿namespace Fixie.Cli
 {
     using System;
 

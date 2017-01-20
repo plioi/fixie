@@ -14,23 +14,9 @@
         {
             try
             {
-                var runnerArguments = new List<string>();
-                var conventionArguments = new List<string>();
-
-                bool separatorFound = false;
-                foreach (var arg in arguments)
-                {
-                    if (arg == "--")
-                    {
-                        separatorFound = true;
-                        continue;
-                    }
-
-                    if (separatorFound)
-                        conventionArguments.Add(arg);
-                    else
-                        runnerArguments.Add(arg);
-                }
+                string[] runnerArguments;
+                string[] conventionArguments;
+                SplitArguments(arguments, out runnerArguments, out conventionArguments);
 
                 var options = ParseRunnerArguments(runnerArguments);
 
@@ -54,7 +40,31 @@
             }
         }
 
-        static Options ParseRunnerArguments(IReadOnlyList<string> runnerArguments)
+        static void SplitArguments(string[] arguments, out string[] runnerArguments, out string[] conventionArguments)
+        {
+            var runnerArgumentList = new List<string>();
+            var conventionArgumentList = new List<string>();
+
+            bool separatorFound = false;
+            foreach (var arg in arguments)
+            {
+                if (arg == "--")
+                {
+                    separatorFound = true;
+                    continue;
+                }
+
+                if (separatorFound)
+                    conventionArgumentList.Add(arg);
+                else
+                    runnerArgumentList.Add(arg);
+            }
+
+            runnerArguments = runnerArgumentList.ToArray();
+            conventionArguments = conventionArgumentList.ToArray();
+        }
+
+        static Options ParseRunnerArguments(string[] runnerArguments)
         {
             string[] unusedArguments;
             var options = CommandLine.Parse<Options>(runnerArguments, out unusedArguments);

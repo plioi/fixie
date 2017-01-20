@@ -1,4 +1,4 @@
-namespace Fixie.Runner
+﻿namespace Fixie.Runner
 {
     public enum ReportFormat
     {

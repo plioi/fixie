@@ -17,7 +17,7 @@ namespace Fixie.Runner
     /// </summary>
     public abstract class LongLivedMarshalByRefObject : MarshalByRefObject, IDisposable
     {
-        public sealed override object InitializeLifetimeService()
+        public override sealed object InitializeLifetimeService()
         {
             // MarshalByRefObjects have lifetimes unlike normal objects.
             // The default implementation of InitializeLifetimeService()

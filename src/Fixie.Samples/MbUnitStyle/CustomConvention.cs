@@ -47,7 +47,7 @@
                     {
                         parameters[i] = ChangeType(parameters[i], parameterInfos[i].ParameterType);
                     }
-                
+
                     yield return parameters;
                 }
             }

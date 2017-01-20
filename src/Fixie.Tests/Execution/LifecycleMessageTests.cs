@@ -5,10 +5,11 @@
     using System.Linq;
     using Assertions;
     using Fixie.Execution;
+    using static Utility;
 
     public class LifecycleMessageTests : MessagingTests
     {
-        public void ShouldDescribeCaseCompletion()
+        public void ShouldDescribeTestLifecycleMessagesEmittedDuringExecution()
         {
             var listener = new StubCaseCompletedListener();
 
@@ -19,6 +20,9 @@
 
             var assemblyStarted = listener.AssemblyStarts.Single();
             assemblyStarted.Assembly.ShouldEqual(assembly);
+
+            var classStarted = listener.ClassStarts.Single();
+            classStarted.Class.FullName.ShouldEqual(FullName<MessagingTests>() + "+SampleTestClass");
 
             listener.Cases.Count.ShouldEqual(5);
 
@@ -80,21 +84,30 @@
             skipWithoutReason.Status.ShouldEqual(CaseStatus.Skipped);
             skipWithoutReason.Reason.ShouldBeNull();
 
+            var classCompleted = listener.ClassCompletions.Single();
+            classCompleted.Class.FullName.ShouldEqual(FullName<MessagingTests>() + "+SampleTestClass");
+
             var assemblyCompleted = listener.AssemblyCompletions.Single();
             assemblyCompleted.Assembly.ShouldEqual(assembly);
         }
 
         public class StubCaseCompletedListener :
             Handler<AssemblyStarted>,
+            Handler<ClassStarted>,
             Handler<CaseCompleted>,
+            Handler<ClassCompleted>,
             Handler<AssemblyCompleted>
         {
-            public List<AssemblyStarted> AssemblyStarts { get; set; } = new List<AssemblyStarted>();
-            public List<CaseCompleted> Cases { get; set; } = new List<CaseCompleted>();
-            public List<AssemblyCompleted> AssemblyCompletions { get; set; } = new List<AssemblyCompleted>();
+            public List<AssemblyStarted> AssemblyStarts { get; } = new List<AssemblyStarted>();
+            public List<ClassStarted> ClassStarts { get; } = new List<ClassStarted>();
+            public List<CaseCompleted> Cases { get; } = new List<CaseCompleted>();
+            public List<ClassCompleted> ClassCompletions { get; } = new List<ClassCompleted>();
+            public List<AssemblyCompleted> AssemblyCompletions { get; } = new List<AssemblyCompleted>();
 
             public void Handle(AssemblyStarted message) => AssemblyStarts.Add(message);
+            public void Handle(ClassStarted message) => ClassStarts.Add(message);
             public void Handle(CaseCompleted message) => Cases.Add(message);
+            public void Handle(ClassCompleted message) => ClassCompletions.Add(message);
             public void Handle(AssemblyCompleted message) => AssemblyCompletions.Add(message);
         }
     }

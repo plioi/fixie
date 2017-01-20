@@ -7,15 +7,15 @@
 
     public class CommandLine
     {
-        public static T Parse<T>(IReadOnlyList<string> arguments) where T : class
+        public static T Parse<T>(string[] arguments) where T : class
         {
             string[] unusedArguments;
             return Parse<T>(arguments, out unusedArguments);
         }
 
-        public static T Parse<T>(IReadOnlyList<string> arguments, out string[] unusedArguments) where T : class
+        public static T Parse<T>(string[] arguments, out string[] unusedArguments) where T : class
         {
-            var parser = new Parser<T>(arguments.ToArray());
+            var parser = new Parser<T>(arguments);
 
             unusedArguments = parser.UnusedArguments.ToArray();
 
@@ -110,6 +110,8 @@
                     var stringValue = value as string;
                     if (value != null)
                     {
+                        stringValue = stringValue?.ToLower();
+
                         if (stringValue == "on" || stringValue == "true")
                             value = true;
                         else if (stringValue == "off" || stringValue == "false")
@@ -172,6 +174,7 @@
                     .ToArray();
 
                 var dictionary = new Dictionary<string, NamedArgument>();
+
                 foreach (var namedArgument in namedArguments)
                 {
                     if (dictionary.ContainsKey(namedArgument.Name))
@@ -182,6 +185,7 @@
 
                     dictionary.Add(namedArgument.Name, namedArgument);
                 }
+
                 return dictionary;
             }
 

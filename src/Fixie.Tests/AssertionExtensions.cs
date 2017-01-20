@@ -32,16 +32,5 @@
             threw.ShouldBeTrue();
             return exception;
         }
-
-        public static void ShouldMatch<T>(this T actual, T expected)
-        {
-            foreach (var property in typeof(T).GetProperties())
-            {
-                var actualValue = property.GetValue(actual);
-                var expectedValue = property.GetValue(expected);
-
-                actualValue.ShouldEqual(expectedValue);
-            }
-        }
     }
 }
