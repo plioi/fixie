@@ -58,9 +58,7 @@
         {
             var format = new TXmlFormat();
             var xDocument = format.Transform(report);
-            var folder = Path.GetDirectoryName(report.Assembly.Location);
-            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(report.Assembly.Location);
-            var filePath = Path.Combine(folder, $"{fileNameWithoutExtension}.xml");
+            var filePath = Path.GetFullPath(report.Assembly.Location) + ".xml";
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             using (var writer = new StreamWriter(stream))
