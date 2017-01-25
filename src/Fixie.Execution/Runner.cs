@@ -11,6 +11,9 @@
         readonly Bus bus;
         readonly string[] conventionArguments;
 
+        public Runner(Bus bus)
+            : this(bus, new string[] {}) { }
+
         public Runner(Bus bus, params string[] conventionArguments)
         {
             this.bus = bus;
