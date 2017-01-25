@@ -25,7 +25,7 @@ namespace Fixie.TestDriven
             {
                 var testClass = method.DeclaringType;
 
-                if (ReflectionExtensions.IsDispose(testClass, method))
+                if (testClass.IsDisposable() && method.HasDisposeSignature())
                 {
                     var listener = new TestDrivenListener(testListener);
                     listener.Handle(new CaseSkipped(new Case(testClass, method), "Dispose() is not a test."));
@@ -48,6 +48,7 @@ namespace Fixie.TestDriven
         {
             var listener = new TestDrivenListener(testListener);
             var bus = new Bus(listener);
+
             var runner = new Runner(bus);
             run(runner);
 

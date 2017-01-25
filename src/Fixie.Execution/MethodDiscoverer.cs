@@ -18,10 +18,12 @@
         {
             try
             {
+                bool testClassIsDisposable = testClass.IsDisposable();
+
                 return testClass
                     .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(ExcludeMethodsDefinedOnObject)
-                    .Where(method => !ReflectionExtensions.IsDispose(testClass, method))
+                    .Where(method => method.DeclaringType != typeof(object))
+                    .Where(method => !(testClassIsDisposable && method.HasDisposeSignature()))
                     .Where(IsMatch)
                     .ToArray();
             }
@@ -35,8 +37,5 @@
 
         bool IsMatch(MethodInfo candidate)
             => testMethodConditions.All(condition => condition(candidate));
-
-        static bool ExcludeMethodsDefinedOnObject(MethodInfo method)
-            => method.DeclaringType != typeof(object);
     }
 }
